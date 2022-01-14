@@ -1,0 +1,2 @@
+echo 'db.getSiblingDB("provendb-cs-tests").dropDatabase();'|mongo "mongodb://localhost:27018/provendb-cs-tests"
+echo 'db.getSiblingDB("provendb-cs-tests").dropDatabase();'|mongo "mongodb://localhost:27017/provendb-cs-tests"
