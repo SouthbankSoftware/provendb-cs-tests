@@ -11,7 +11,11 @@
     "jest-html-reporter": "^2.4.3",
     "jest-junit": "^6.0.1",
     "mongodb": "^4.2.2",
-    "promisify": "^0.0.3"
+    "promisify": "^0.0.3",
+    "chainpoint-binary": "^4.0.1",
+    "chainpoint-client": "^0.2.1",
+    "chainpoint-parse": "^3.1.1",
+    "chainpoint-validate": "*"
   },
   "scripts": {
     "test": "MODE=local jest  --runInBand --forceExit --detectOpenHandles",
