@@ -23,7 +23,7 @@ sleep(5000);
 db.provendb_controls.insertOne({
     "_id" : Math.round(Math.random()*10000000).toString(),
     "collection" : "tests",
-    "x" : 7,
+    "dataId" : 7,
     "label" : "my-custom-label",
     "op" : "getDocumentProof",
     "time" : new ISODate()
