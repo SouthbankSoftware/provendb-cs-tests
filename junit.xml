@@ -1,23 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="jest tests" tests="4" failures="1" time="9.09">
-  <testsuite name="Basic CRUD tests" errors="0" failures="1" skipped="3" timestamp="2022-02-01T05:20:04" time="8.362" tests="4">
-    <testcase classname="Basic CRUD tests InsertOne" name="Basic CRUD tests InsertOne" time="0.001">
-      <skipped/>
-    </testcase>
-    <testcase classname="Basic CRUD tests UpdateMany" name="Basic CRUD tests UpdateMany" time="7.361">
-      <failure>Error: expect(received).toEqual(expected)
-
-Expected value to equal:
-  700
-Received:
-  1300
-    at Object.&lt;anonymous&gt; (/Users/guyharrison/git/provendb-cs-tests/tests/01Crud.test.js:146:28)</failure>
-    </testcase>
-    <testcase classname="Basic CRUD tests UpdateOne" name="Basic CRUD tests UpdateOne" time="0.001">
-      <skipped/>
-    </testcase>
-    <testcase classname="Basic CRUD tests simpleDelete" name="Basic CRUD tests simpleDelete" time="0">
-      <skipped/>
+<testsuites name="jest tests" tests="1" failures="0" time="25.762">
+  <testsuite name="Get Document Proof" errors="0" failures="0" skipped="0" timestamp="2022-02-09T00:18:36" time="24.961" tests="1">
+    <testcase classname="Get Document Proof simple getDocumentProof" name="Get Document Proof simple getDocumentProof" time="24.239">
     </testcase>
   </testsuite>
 </testsuites>

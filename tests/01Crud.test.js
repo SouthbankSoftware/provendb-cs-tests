@@ -9,7 +9,9 @@ require('dotenv').config();
 
 let watcherDb;
 let persistenceDb;
-const debug = false;
+let debug=false;
+if ("PDB_DEBUG" in process.env)
+     debug = true;
 
 
 describe('Basic CRUD tests', () => {
@@ -85,7 +87,7 @@ describe('Basic CRUD tests', () => {
         for (let i = 0; i < nUpdates; i++) {
             const updateOut = await wCollection.updateMany({}, {
                 "$set": {
-                    x: i
+                    yax: i
                 }
             }, {
                 multi: true
@@ -209,6 +211,7 @@ describe('Basic CRUD tests', () => {
         const deleteOut = await wCollection.deleteMany({});
         if (debug) console.log(deleteOut);
 
+        //TODO: Better sync required here. 
         await sleep(5000);
 
         const pCollection = persistenceDb.collection(collectionName);
@@ -216,10 +219,11 @@ describe('Basic CRUD tests', () => {
             "createdAt": 1
         }).toArray();
         if (debug) console.log(data);
+        await sleep(5000);
         expect(data.length).toEqual(2);
 
         expect(data[0].metadata.endedAt).not.toEqual(null)
-        expect(data[1].metadata.endedAt).not.toEqual(null)
+        expect(data[1].metadata.endedAt).toEqual(null)
 
 
 

@@ -11,13 +11,15 @@ require('util');
 const chp = require('chainpoint-client');
 const chainpointParse = require('chainpoint-parse');
 const chainpointBinary = require('chainpoint-binary');
-const network="HEDERA_MAINNET";
+const network = "HEDERA_MAINNET";
 
 require('dotenv').config();
 
 let watcherDb;
 let persistenceDb;
-const debug = false;
+let debug = false;
+if ("PDB_DEBUG" in process.env)
+    debug = true;
 
 
 describe('SubmitProof tests', () => {
@@ -58,6 +60,7 @@ describe('SubmitProof tests', () => {
         const insertOut = await watcherDb.collection('provendb_controls').
         insertOne({
             "_id": controlId,
+            dataId: controlId,
             op: "submitProof",
             anchorType: network,
             "time": new Date(),
@@ -80,12 +83,12 @@ describe('SubmitProof tests', () => {
             if (controlRecord.status === 'completed') {
                 completedProof = true;
             } else {
-                console.log(controlRecord.status);
+                if (debug) console.log(controlRecord.status);
 
             }
         }
         if (debug) console.log(controlRecord);
-        expect(controlRecord.data.proof.anchortype).toEqual(network);
+        expect(controlRecord.data.proof.anchorType).toEqual(network);
         expect(controlRecord.data.collection).toEqual(collectionName);
         expect(controlRecord.data.proof.status).toEqual('CONFIRMED');
     });
@@ -93,19 +96,19 @@ describe('SubmitProof tests', () => {
     test('proof format is valid', async () => {
         jest.setTimeout(120000);
 
-
+        const debug = true;
         var {
             collectionName,
             controlRecord
         } = await createAProof(1000);
         if (debug) {
- 
+
             // console.log(collectionName, JSON.stringify(controlRecord));
             console.log(Object.keys(controlRecord));
             console.log(Object.keys(controlRecord.data));
             console.log(controlRecord.data.proof);
         }
-        let proof=controlRecord.data.proof;
+        let proof = controlRecord.data.proof;
 
 
         expect(proof.anchorType).toEqual(network);
@@ -114,18 +117,17 @@ describe('SubmitProof tests', () => {
 
         const objectProof = proof.data;
         if (debug) console.log(objectProof);
-        const binaryProof=await chainpointBinary.objectToBinarySync(objectProof);
+        const binaryProof = await chainpointBinary.objectToBinarySync(objectProof);
         if (debug) console.log(binaryProof);
         const parsedProof = chainpointParse.parse(binaryProof);
         if (debug) console.log(parsedProof);
-        expect(true).toBeTruthy();
-        done();
-        if (debug) console.log(proof);
+        expect(parsedProof.hash).toEqual(objectProof.hash);
+
     });
 
 });
 
-async function createAProof(docCount=1000) {
+async function createAProof(docCount = 1000) {
     const collectionName = 'submitProof' + Math.round((Math.random() * 100000));
     if (debug)
         console.log(collectionName);
@@ -155,7 +157,7 @@ async function createAProof(docCount=1000) {
     if (debug)
         console.log(insertOut);
 
-
+    await sleep(5000); //TODO: Need better synchronization
     let completedProof = false;
     let controlRecord;
 
@@ -164,19 +166,21 @@ async function createAProof(docCount=1000) {
         controlRecord = await persistenceDb.collection('provendb_controls').findOne({
             "_id": controlId
         });
-        if (debug)
-            console.log(controlRecord);
-        await sleep(5000);
-        expect(Object.keys(controlRecord)).toContain("status");
-        if (controlRecord.status === 'completed') {
-            completedProof = true;
-        } else if (controlRecord.status === 'error') {
-            console.error(controlRecord);
-            throw Error('Error in submitProof');
+        if (controlRecord) {
+            if (debug)
+                console.log(controlRecord);
+            await sleep(5000);
+            expect(Object.keys(controlRecord)).toContain("status");
+            if (controlRecord.status === 'completed') {
+                completedProof = true;
+            } else if (controlRecord.status === 'error') {
+                console.error(controlRecord);
+                throw Error('Error in submitProof');
 
-        } else {
-            console.log(controlRecord.status);
+            } else {
+                if (debug) console.log(controlRecord.status);
 
+            }
         }
     }
     return {
