@@ -1,7 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="jest tests" tests="1" failures="0" time="25.762">
-  <testsuite name="Get Document Proof" errors="0" failures="0" skipped="0" timestamp="2022-02-09T00:18:36" time="24.961" tests="1">
-    <testcase classname="Get Document Proof simple getDocumentProof" name="Get Document Proof simple getDocumentProof" time="24.239">
+<testsuites name="jest tests" tests="4" failures="0" errors="0" time="126.18">
+  <testsuite name="Get Document Proof" errors="0" failures="0" skipped="3" timestamp="2022-02-10T23:07:26" time="125.321" tests="4">
+    <testcase classname="Get Document Proof simple getDocumentProof" name="Get Document Proof simple getDocumentProof" time="0">
+      <skipped/>
+    </testcase>
+    <testcase classname="Get Document Proof simple getDocumentProof" name="Get Document Proof simple getDocumentProof" time="0">
+      <skipped/>
+    </testcase>
+    <testcase classname="Get Document Proof getDocumentProof multi-versions" name="Get Document Proof getDocumentProof multi-versions" time="123.682">
+    </testcase>
+    <testcase classname="Get Document Proof getDocumentProof chainpoint format" name="Get Document Proof getDocumentProof chainpoint format" time="0">
+      <skipped/>
     </testcase>
   </testsuite>
 </testsuites>

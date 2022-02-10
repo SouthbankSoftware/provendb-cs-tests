@@ -96,7 +96,7 @@ describe('SubmitProof tests', () => {
     test('proof format is valid', async () => {
         jest.setTimeout(120000);
 
-        const debug = true;
+
         var {
             collectionName,
             controlRecord
@@ -116,12 +116,13 @@ describe('SubmitProof tests', () => {
         expect(proof.status).toEqual('CONFIRMED');
 
         const objectProof = proof.data;
-        if (debug) console.log(objectProof);
+        if (debug) console.log(JSON.stringify(objectProof));
         const binaryProof = await chainpointBinary.objectToBinarySync(objectProof);
         if (debug) console.log(binaryProof);
         const parsedProof = chainpointParse.parse(binaryProof);
         if (debug) console.log(parsedProof);
         expect(parsedProof.hash).toEqual(objectProof.hash);
+        await sleep(2000);
 
     });
 
