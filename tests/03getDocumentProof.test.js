@@ -129,14 +129,14 @@ describe('Get Document Proof', () => {
 
         if (debug) console.log('First proof - should be no proof for document ');
         const getDocProofResult1 = await getADocProof(collectionName, dataId,time1);
-        if (debug) console.log(getDocProofResult1);
+        if (debug) console.log(JSON.stringify(getDocProofResult1));
+        expect(getDocProofResult1).toContain("pdb_anchor_branch");
         if (debug) console.log('second proof should be for first version of data');
         const getDocProofResult2 = await getADocProof(collectionName, dataId,time2);
-        if (debug) console.log(getDocProofResult2);
+        if (debug) console.log(JSON.stringify(getDocProofResult2));
         if (debug) console.log('third proof should be for second version of data');
         const getDocProofResult3 = await getADocProof(collectionName, dataId,time3);
-
-        if (debug) console.log(getDocProofResult3);
+        if (debug) console.log(JSON.stringify(getDocProofResult3));
         
         await sleep(1000);
     });
