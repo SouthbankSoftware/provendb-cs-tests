@@ -27,6 +27,8 @@ describe('Basic CRUD tests', () => {
         const watcherClient = await MongoClient.connect(
             watcherUri, {});
         watcherDb = watcherClient.db();
+        console.log(watcherDb);
+        await sleep(500);
     });
 
     beforeEach(() => {});
@@ -65,8 +67,10 @@ describe('Basic CRUD tests', () => {
         const nUpdates = 4;
 
         const collectionName = 'updateMany' + Math.round((Math.random() * 100000));
-        const controlCollectionName = collectionName + '_control';
         if (debug) console.log(collectionName)
+        const controlCollectionName = collectionName + '_control';
+        console.log(watcherDb);
+        await sleep(1000);
         const wCollection = watcherDb.collection(collectionName);
         const wControlCollection = watcherDb.collection(controlCollectionName);
         const pCollection = persistenceDb.collection(collectionName);

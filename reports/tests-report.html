@@ -229,4 +229,40 @@ header {
   font-size: 1rem;
   padding: 0 0.5rem;
 }
-</style></head><body><div id="jesthtml-content"><header><h1 id="title">Test Report</h1></header><div id="metadata-container"><div id="timestamp">Started: 2022-02-11 10:07:25</div><div id="summary"><div id="suite-summary"><div class="summary-total">Suites (1)</div><div class="summary-passed">1 passed</div><div class="summary-failed summary-empty">0 failed</div><div class="summary-pending summary-empty">0 pending</div></div><div id="test-summary"><div class="summary-total">Tests (4)</div><div class="summary-passed">1 passed</div><div class="summary-failed summary-empty">0 failed</div><div class="summary-pending">3 pending</div></div></div></div><div id="suite-1" class="suite-container"><div class="suite-info"><div class="suite-path">/Users/guyharrison/git/provendb-cs-tests/tests/03getDocumentProof.test.js</div><div class="suite-time warn">125.321s</div></div><div class="suite-tests"><div class="test-result pending"><div class="test-info"><div class="test-suitename">Get Document Proof</div><div class="test-title">simple getDocumentProof</div><div class="test-status">pending</div><div class="test-duration">0s</div></div></div><div class="test-result pending"><div class="test-info"><div class="test-suitename">Get Document Proof</div><div class="test-title">simple getDocumentProof</div><div class="test-status">pending</div><div class="test-duration">0s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">Get Document Proof</div><div class="test-title">getDocumentProof multi-versions</div><div class="test-status">passed</div><div class="test-duration">123.682s</div></div></div><div class="test-result pending"><div class="test-info"><div class="test-suitename">Get Document Proof</div><div class="test-title">getDocumentProof chainpoint format</div><div class="test-status">pending</div><div class="test-duration">0s</div></div></div></div></div></div></body></html>
+</style></head><body><div id="jesthtml-content"><header><h1 id="title">Test Report</h1></header><div id="metadata-container"><div id="timestamp">Started: 2022-02-15 10:01:40</div><div id="summary"><div id="suite-summary"><div class="summary-total">Suites (1)</div><div class="summary-passed summary-empty">0 passed</div><div class="summary-failed">1 failed</div><div class="summary-pending summary-empty">0 pending</div></div><div id="test-summary"><div class="summary-total">Tests (4)</div><div class="summary-passed summary-empty">0 passed</div><div class="summary-failed">4 failed</div><div class="summary-pending summary-empty">0 pending</div></div></div></div><div id="suite-1" class="suite-container"><div class="suite-info"><div class="suite-path">/Users/guyharrison/git/provendb-cs-tests/tests/01Crud.test.js</div><div class="suite-time warn">6.769s</div></div><div class="suite-tests"><div class="test-result failed"><div class="test-info"><div class="test-suitename">Basic CRUD tests</div><div class="test-title">InsertOne</div><div class="test-status">failed</div><div class="test-duration">0.011s</div></div><div class="failureMessages"> <pre class="failureMsg">Error: Timeout - Async callback was not invoked within the 5000ms timeout specified by jest.setTimeout.
+    at mapper (/Users/guyharrison/git/provendb-cs-tests/node_modules/jest-jasmine2/build/queue_runner.js:41:52)
+    at /Users/guyharrison/git/provendb-cs-tests/node_modules/jest-jasmine2/build/queue_runner.js:87:41</pre><pre class="failureMsg">TypeError: Cannot read properties of undefined (reading 'collection')
+    at Object.&lt;anonymous&gt; (/Users/guyharrison/git/provendb-cs-tests/tests/01Crud.test.js:45:39)
+    at Object.asyncJestTest (/Users/guyharrison/git/provendb-cs-tests/node_modules/jest-jasmine2/build/jasmine_async.js:108:37)
+    at /Users/guyharrison/git/provendb-cs-tests/node_modules/jest-jasmine2/build/queue_runner.js:56:12
+    at new Promise (&lt;anonymous&gt;)
+    at mapper (/Users/guyharrison/git/provendb-cs-tests/node_modules/jest-jasmine2/build/queue_runner.js:43:19)
+    at /Users/guyharrison/git/provendb-cs-tests/node_modules/jest-jasmine2/build/queue_runner.js:87:41</pre></div></div><div class="test-result failed"><div class="test-info"><div class="test-suitename">Basic CRUD tests</div><div class="test-title">UpdateMany</div><div class="test-status">failed</div><div class="test-duration">1.008s</div></div><div class="failureMessages"> <pre class="failureMsg">Error: Timeout - Async callback was not invoked within the 5000ms timeout specified by jest.setTimeout.
+    at mapper (/Users/guyharrison/git/provendb-cs-tests/node_modules/jest-jasmine2/build/queue_runner.js:41:52)
+    at /Users/guyharrison/git/provendb-cs-tests/node_modules/jest-jasmine2/build/queue_runner.js:87:41</pre><pre class="failureMsg">TypeError: Cannot read properties of undefined (reading 'collection')
+    at Object.&lt;anonymous&gt; (/Users/guyharrison/git/provendb-cs-tests/tests/01Crud.test.js:74:39)
+    at runNextTicks (node:internal/process/task_queues:61:5)
+    at listOnTimeout (node:internal/timers:528:9)
+    at processTimers (node:internal/timers:502:7)</pre></div></div><div class="test-result failed"><div class="test-info"><div class="test-suitename">Basic CRUD tests</div><div class="test-title">UpdateOne</div><div class="test-status">failed</div><div class="test-duration">0.003s</div></div><div class="failureMessages"> <pre class="failureMsg">Error: Timeout - Async callback was not invoked within the 5000ms timeout specified by jest.setTimeout.
+    at mapper (/Users/guyharrison/git/provendb-cs-tests/node_modules/jest-jasmine2/build/queue_runner.js:41:52)
+    at /Users/guyharrison/git/provendb-cs-tests/node_modules/jest-jasmine2/build/queue_runner.js:87:41</pre><pre class="failureMsg">TypeError: Cannot read properties of undefined (reading 'collection')
+    at Object.&lt;anonymous&gt; (/Users/guyharrison/git/provendb-cs-tests/tests/01Crud.test.js:163:39)
+    at Object.asyncJestTest (/Users/guyharrison/git/provendb-cs-tests/node_modules/jest-jasmine2/build/jasmine_async.js:108:37)
+    at /Users/guyharrison/git/provendb-cs-tests/node_modules/jest-jasmine2/build/queue_runner.js:56:12
+    at new Promise (&lt;anonymous&gt;)
+    at mapper (/Users/guyharrison/git/provendb-cs-tests/node_modules/jest-jasmine2/build/queue_runner.js:43:19)
+    at /Users/guyharrison/git/provendb-cs-tests/node_modules/jest-jasmine2/build/queue_runner.js:87:41
+    at runNextTicks (node:internal/process/task_queues:61:5)
+    at listOnTimeout (node:internal/timers:528:9)
+    at processTimers (node:internal/timers:502:7)</pre></div></div><div class="test-result failed"><div class="test-info"><div class="test-suitename">Basic CRUD tests</div><div class="test-title">simpleDelete</div><div class="test-status">failed</div><div class="test-duration">0.002s</div></div><div class="failureMessages"> <pre class="failureMsg">Error: Timeout - Async callback was not invoked within the 5000ms timeout specified by jest.setTimeout.
+    at mapper (/Users/guyharrison/git/provendb-cs-tests/node_modules/jest-jasmine2/build/queue_runner.js:41:52)
+    at /Users/guyharrison/git/provendb-cs-tests/node_modules/jest-jasmine2/build/queue_runner.js:87:41</pre><pre class="failureMsg">TypeError: Cannot read properties of undefined (reading 'collection')
+    at Object.&lt;anonymous&gt; (/Users/guyharrison/git/provendb-cs-tests/tests/01Crud.test.js:201:39)
+    at Object.asyncJestTest (/Users/guyharrison/git/provendb-cs-tests/node_modules/jest-jasmine2/build/jasmine_async.js:108:37)
+    at /Users/guyharrison/git/provendb-cs-tests/node_modules/jest-jasmine2/build/queue_runner.js:56:12
+    at new Promise (&lt;anonymous&gt;)
+    at mapper (/Users/guyharrison/git/provendb-cs-tests/node_modules/jest-jasmine2/build/queue_runner.js:43:19)
+    at /Users/guyharrison/git/provendb-cs-tests/node_modules/jest-jasmine2/build/queue_runner.js:87:41
+    at runNextTicks (node:internal/process/task_queues:61:5)
+    at listOnTimeout (node:internal/timers:528:9)
+    at processTimers (node:internal/timers:502:7)</pre></div></div></div></div></div></body></html>
