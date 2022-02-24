@@ -16,6 +16,7 @@ if ("PDB_DEBUG" in process.env)
 
 describe('Basic CRUD tests', () => {
     beforeAll(async () => {
+        jest.setTimeout(20000);
         const peristenceUri = process.env.PROVENDB_PERSISTENCE_URI;
         console.log(peristenceUri);
         const persistClient = await MongoClient.connect(
@@ -41,7 +42,7 @@ describe('Basic CRUD tests', () => {
         jest.setTimeout(20000);
 
         const collectionName = 'insertOne' + Math.round((Math.random() * 100000));
-        if (debug) console.log(collectoinName)
+        if (debug) console.log(collectionName)
         const wCollection = watcherDb.collection(collectionName);
 
         wCollection.insertOne({

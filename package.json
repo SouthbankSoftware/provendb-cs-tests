@@ -14,7 +14,7 @@
     "jest-html": "^1.5.0",
     "jest-html-reporter": "^3.4.2",
     "jest-junit": "^13.0.0",
-    "mongodb": "^4.2.2",
+    "mongodb": "^4.3",
     "promisify": "^0.0.3"
   },
   "scripts": {

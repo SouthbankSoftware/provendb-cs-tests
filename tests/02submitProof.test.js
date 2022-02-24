@@ -24,17 +24,20 @@ if ("PDB_DEBUG" in process.env)
 
 describe('SubmitProof tests', () => {
     beforeAll(async () => {
+        jest.setTimeout(240000);
         const peristenceUri = process.env.PROVENDB_PERSISTENCE_URI;
         console.log(peristenceUri);
         const persistClient = await MongoClient.connect(
             peristenceUri, {});
         persistenceDb = persistClient.db();
+        console.log('Persistent db connected');
 
         const watcherUri = process.env.PROVENDB_WATCHABLE_URI;
         console.log(watcherUri);
         const watcherClient = await MongoClient.connect(
             watcherUri, {});
         watcherDb = watcherClient.db();
+        console.log('Watcher connected');
     });
 
     beforeEach(() => {});

@@ -23,6 +23,7 @@ if ("PDB_DEBUG" in process.env)
 
 describe('Get Document Proof', () => {
     beforeAll(async () => {
+        jest.setTimeout(200000);
         const peristenceUri = process.env.PROVENDB_PERSISTENCE_URI;
         console.log(peristenceUri);
         const persistClient = await MongoClient.connect(
@@ -33,6 +34,7 @@ describe('Get Document Proof', () => {
         console.log(watcherUri);
         const watcherClient = await MongoClient.connect(
             watcherUri, {});
+        console.log('connected',watcherUri);
         watcherDb = watcherClient.db();
     });
 
