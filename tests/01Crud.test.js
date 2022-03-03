@@ -28,7 +28,7 @@ describe('Basic CRUD tests', () => {
         const watcherClient = await MongoClient.connect(
             watcherUri, {});
         watcherDb = watcherClient.db();
-        console.log(watcherDb);
+        // console.log(watcherDb);
         await sleep(500);
     });
 
@@ -92,7 +92,7 @@ describe('Basic CRUD tests', () => {
         for (let i = 0; i < nUpdates; i++) {
             const updateOut = await wCollection.updateMany({}, {
                 "$set": {
-                    yax: i
+                    y: i,x:i
                 }
             }, {
                 multi: true
