@@ -57,7 +57,11 @@ describe('Basic CRUD tests', () => {
         const doc = data[0];
         expect(Object.keys(doc)).toEqual(['_id', 'data', 'dataId', 'metadata']);
         expect(doc.data.x).toEqual(1);
-        expect(doc.metadata.endedAt).toEqual(null);
+        let endedAt=null
+        if ("endedAt" in doc.metadata ) {
+            endedAt=doc.metadata.endedAt
+        }
+        expect(endedAt).toEqual(null);
 
     });
 
@@ -186,7 +190,11 @@ describe('Basic CRUD tests', () => {
         expect(data[0].metadata.endedAt).toBeDefined;
         expect(data[0].metadata.endedAt).not.toEqual(null);
         expect(data[0].data.x).toEqual(1);
-        expect(data[1].metadata.endedAt).toEqual(null);
+        let endedAt=null
+        if ("endedAt" in data[1].metadata ) {
+            endedAt=data[1].metadata.endedAt
+        }
+        expect(endedAt).toEqual(null);
         expect(data[1].data.x).toEqual(2);
         expect(data[0].dataId).toEqual(data[1].dataId);
         expect(data[0].metadata.hash).not.toEqual(data[1].metadata.hash);

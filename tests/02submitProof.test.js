@@ -11,7 +11,7 @@ require('util');
 const chp = require('chainpoint-client');
 const chainpointParse = require('chainpoint-parse');
 const chainpointBinary = require('chainpoint-binary');
-const network = "HEDERA_MAINNET";
+const network = "HEDERA";
 
 require('dotenv').config();
 
@@ -47,6 +47,7 @@ describe('SubmitProof tests', () => {
     afterAll(() => {});
 
     test('simple SubmitProof', async () => {
+        const debug=true
         jest.setTimeout(240000);
 
         const collectionName = 'submitProof' + Math.round((Math.random() * 100000));
@@ -91,12 +92,13 @@ describe('SubmitProof tests', () => {
             }
         }
         if (debug) console.log(controlRecord);
-        expect(controlRecord.data.proof.anchorType).toEqual(network);
-        expect(controlRecord.data.collection).toEqual(collectionName);
-        expect(controlRecord.data.proof.status).toEqual('CONFIRMED');
+        expect(controlRecord.anchorType).toEqual(network);
+        expect(controlRecord.collection).toEqual(collectionName);
+        expect(controlRecord.proof.status).toEqual('CONFIRMED');
     });
 
     test('proof format is valid', async () => {
+        const debug=true;
         jest.setTimeout(120000);
 
 
@@ -108,14 +110,14 @@ describe('SubmitProof tests', () => {
 
             // console.log(collectionName, JSON.stringify(controlRecord));
             console.log(Object.keys(controlRecord));
-            console.log(Object.keys(controlRecord.data));
-            console.log(controlRecord.data.proof);
+            console.log(controlRecord);
         }
-        let proof = controlRecord.data.proof;
+        let proof = controlRecord.proof;
+        await sleep(1000)
 
 
-        expect(proof.anchorType).toEqual(network);
-        expect(controlRecord.data.collection).toEqual(collectionName);
+        expect(proof.anchortype).toEqual(network);
+        expect(controlRecord.collection).toEqual(collectionName);
         expect(proof.status).toEqual('CONFIRMED');
 
         const objectProof = proof.data;
