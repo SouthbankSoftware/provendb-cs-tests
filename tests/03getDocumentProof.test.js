@@ -1,3 +1,4 @@
+/* eslint-disable import/no-named-as-default */
 
 global.TextEncoder = require("util").TextEncoder;
 global.TextDecoder = require("util").TextDecoder;
@@ -7,9 +8,14 @@ const Logger = require("mongodb").Logger;
 Logger.setLevel("debug");
 
 require('util');
-const chp = require('chainpoint-client');
+
 const chainpointParse = require('chainpoint-parse');
 const chainpointBinary = require('chainpoint-binary');
+
+const {
+    createAProof,sleep
+} = require('./common');
+
 const network = "HEDERA";
 
 require('dotenv').config();
@@ -45,8 +51,9 @@ describe('Get Document Proof', () => {
     afterAll(() => {});
 
     test('simple getDocumentProof', async () => {
+        const debug=true
         jest.setTimeout(240000);
-        const createAProofOut=await createAProof(10);
+        const createAProofOut=await createAProof(watcherDb,persistenceDb,10);
         const collectionName=createAProofOut.collectionName;
         const id=Math.round(Math.random()*10000000).toString();
         const getDocProofDoc={
@@ -68,49 +75,19 @@ describe('Get Document Proof', () => {
         const results=getDocProofResult[0];
         if (debug) console.log(results);
         await sleep(2000);
-        const proof = results.data.proof;
+        const proof = results.proof;
         if (debug) console.log(proof);
         await sleep(1000);
-        expect(proof.anchorType).toEqual(network);
-        expect(results.data.collection).toEqual(collectionName);
+        expect(proof.anchortype).toEqual(network);
+        expect(results.collection).toEqual(collectionName);
         expect(proof.status).toEqual('CONFIRMED');
 
     });
 
-    test('simple getDocumentProof', async () => {
-        jest.setTimeout(240000);
-        const createAProofOut=await createAProof(10);
-        const collectionName=createAProofOut.collectionName;
-        const id=Math.round(Math.random()*10000000).toString();
-        const getDocProofDoc={
-            "_id" : id,
-            "collection" : collectionName,
-            "dataId" : 7,
-            "label" : "my-custom-label",
-            "op" : "getDocumentProof",
-            "time" : new Date()
-        };
-        if (debug) console.log(getDocProofDoc);
-        await sleep(1000);
-        const insertOut=await watcherDb.collection('provendb_controls').insertOne(getDocProofDoc);
-        if (debug) console.log(insertOut);
-        await sleep(5000);
-        console.log(await persistenceDb.collection('provendb_controls').find({},{_id:1}).toArray());
-        const getDocProofResult=await persistenceDb.collection('provendb_controls').find({_id:id}).toArray();
-        expect(getDocProofResult.length).toEqual(1);
-        const results=getDocProofResult[0];
-        if (debug) console.log(results);
-        await sleep(2000);
-        const proof = results.data.proof;
-        if (debug) console.log(proof);
-        await sleep(1000);
-        expect(proof.anchorType).toEqual(network);
-        expect(results.data.collection).toEqual(collectionName);
-        expect(proof.status).toEqual('CONFIRMED');
-
-    });
+ 
 
     test('getDocumentProof multi-versions', async () => {
+        let debug=true;
         jest.setTimeout(240000);
         const data=[];
         for (let i=0;i<100;i++) {
@@ -118,9 +95,10 @@ describe('Get Document Proof', () => {
         }
         const collectionName='getProofMulti'+Math.round(Math.random()*10000000).toString();
         const collection=watcherDb.collection(collectionName);
+        const collectionP=persistenceDb.collection(collectionName);
         await collection.insertMany(data);
         await sleep(5000);
-        const time1=new Date();   // Should be no proof for this time
+        const time1=new Date();   
         await proveCollection(collectionName);
         const time2=new Date();  // Should be a proof now 
         const dataId=7;
@@ -129,10 +107,18 @@ describe('Get Document Proof', () => {
         await proveCollection(collectionName);
         const time3=new Date();
 
-        if (debug) console.log('First proof - should be no proof for document ');
+        let persistData=await collectionP.find({"data._id":dataId}).sort({createdAt:1}).toArray()
+        if (debug) console.log(persistData)
+  
         const getDocProofResult1 = await getADocProof(collectionName, dataId,time1);
         if (debug) console.log(JSON.stringify(getDocProofResult1));
-        expect(getDocProofResult1).toContain("pdb_anchor_branch");
+        let proof1=getDocProofResult1[0].proof
+        if (debug) console.log(JSONproof1);
+        await sleep(2000)
+        expect(proof1.hash).toEqual(persistData[0].metadata.hash);
+
+
+        expect(getDocProofResult1).toContain("pdb_hedera_anchor_branch");
         if (debug) console.log('second proof should be for first version of data');
         const getDocProofResult2 = await getADocProof(collectionName, dataId,time2);
         if (debug) console.log(JSON.stringify(getDocProofResult2));
@@ -145,7 +131,7 @@ describe('Get Document Proof', () => {
 
     test('getDocumentProof chainpoint format', async () => {
         jest.setTimeout(240000);
-        const createAProofOut=await createAProof(10);
+        const createAProofOut=await createAProof(watcherDb,persistenceDb,10);
         const collectionName=createAProofOut.collectionName;
         const id=Math.round(Math.random()*10000000).toString();
         const getDocProofDoc={
@@ -167,15 +153,15 @@ describe('Get Document Proof', () => {
         const results=getDocProofResult[0];
         if (debug) console.log(results);
         await sleep(2000);
-        const proof = results.data.proof;
+        const proof = results.proof;
         if (debug) console.log(proof);
         await sleep(1000);
-        expect(proof.anchorType).toEqual(network);
-        expect(results.data.collection).toEqual(collectionName);
+        expect(proof.anchortype).toEqual(network);
+        expect(results.collection).toEqual(collectionName);
         expect(proof.status).toEqual('CONFIRMED');
 
         const objectProof = proof.data;
-        if (debug) console.log(objectProof);
+        if (debug) console.log(JSON.stringify(objectProof));
         await sleep(1000);
         const binaryProof = await chainpointBinary.objectToBinarySync(objectProof);
         if (debug) console.log(binaryProof);
@@ -254,69 +240,3 @@ async function proveCollection(collectionName) {
     };
 }
 
-async function createAProof(docCount = 1000) {
-    const collectionName = 'getDocumentProof' + Math.round((Math.random() * 100000));
-    if (debug)
-        console.log(collectionName);
-    const wCollection = watcherDb.collection(collectionName);
-    const data = [];
-    for (let i = 0; i < docCount; i++) {
-        data.push({
-            _id: i,
-            x: i,
-            y: i,
-            z: 'Hello world'
-        });
-    }
-    wCollection.insertMany(data);
-
-    await sleep(5000);
-    const controlId = Math.round(Math.random() * 1000000000).toString();
-
-    console.log('Creating proof with ID ', controlId);
-    const insertOut = await watcherDb.collection('provendb_controls').
-    insertOne({
-        "_id": controlId,
-        op: "submitProof",
-        anchorType: network,
-        "time": new Date(),
-        collection: collectionName
-    });
-    if (debug)
-        console.log(insertOut);
-
-    await sleep(5000); //TODO: Need better synchronization
-    let completedProof = false;
-    let controlRecord;
-
-    while (!completedProof) {
-        await sleep(2000);
-        controlRecord = await persistenceDb.collection('provendb_controls').findOne({
-            "_id": controlId
-        });
-        if (controlRecord) {
-            if (debug)
-                console.log(controlRecord);
-            await sleep(5000);
-            expect(Object.keys(controlRecord)).toContain("status");
-            if (controlRecord.status === 'completed') {
-                completedProof = true;
-            } else if (controlRecord.status === 'error') {
-                console.error(controlRecord);
-                throw Error('Error in submitProof');
-
-            } else {
-                if (debug) console.log(controlRecord.status);
-
-            }
-        }
-    }
-    return {
-        collectionName,
-        controlRecord
-    };
-}
-
-async function sleep(ms) {
-    await new Promise(resolve => setTimeout(resolve, ms));
-}

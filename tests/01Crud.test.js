@@ -236,7 +236,7 @@ describe('Basic CRUD tests', () => {
         expect(data.length).toEqual(2);
 
         expect(data[0].metadata.endedAt).not.toEqual(null)
-        expect(data[1].metadata.endedAt).toEqual(null)
+        expect(data[1].metadata.endedAt).not.toEqual(null)
 
 
 
